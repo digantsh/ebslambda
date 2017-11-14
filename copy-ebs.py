@@ -10,7 +10,7 @@ sregion = os.environ['ActiveRegion']
 # this can be passed as parameter to the lambda
 dregion = os.environ['StandbyRegion']
 env = os.environ['Environment']
-tag = 'ArcherBackup' + env
+tag = 'SnapBackup' + env
 volTag = tag + 'Volume'
 snapTag = tag + 'Snap'
 
@@ -63,7 +63,7 @@ def lambda_handler(event, context):
 
     ec2 = boto3.client('ec2', region_name=dregion)
     cp_Snap = ec2.copy_snapshot(
-        Description='Copied Archer snapshot from ActiveRegion to StandbyRegion',
+        Description='Copied App EBS snapshot from ActiveRegion to StandbyRegion',
         DestinationRegion=dregion,
         SourceRegion=sregion,
         SourceSnapshotId=latestsnap,
@@ -81,7 +81,7 @@ def lambda_handler(event, context):
                       'Value': 'Yes'
                   },
                   {
-                      'Key': 'ArcherDeleteOn',
+                      'Key': 'SnapDeleteOn',
                       'Value': delete_fmt
                   },
                   {

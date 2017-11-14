@@ -4,16 +4,16 @@ import datetime
 import os
 region = os.environ['ActiveRegion']
 ec = boto3.client('ec2', region_name = region)
-
+# app delete on tag
 iam = boto3.client('iam')
-# looks at any/all snapshot that has a "ArcherDeleteOn" tag containing the current day formatted as YYYY-MM-DD. should run daily
+# looks at any/all snapshot that has a "SnapDeleteOn" tag containing the current day formatted as YYYY-MM-DD. should run daily
 def lambda_handler(event, context):
     client = boto3.client("sts")
     account_id = client.get_caller_identity()["Account"]
     delete_on = datetime.date.today().strftime('%Y-%m-%d')
 
     filters = [
-        { 'Name': 'tag:ArcherDeleteOn', 'Values': [delete_on] },
+        { 'Name': 'tag:SnapDeleteOn', 'Values': [delete_on] },
         { 'Name': 'tag:Type', 'Values': ['Automated'] },
     ]
     snapshot_response = ec.describe_snapshots(OwnerIds=[account_id], Filters=filters)

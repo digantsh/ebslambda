@@ -28,7 +28,7 @@ def getLatestSnap():
         Filters=[
             {
                 'Name': 'tag-key',
-                'Values': ['ArcherBackupSnap',]
+                'Values': ['SnapBackupSnap',]
             },
             {
                 'Name': 'tag-value',
@@ -45,7 +45,7 @@ def getLatestSnap():
         list_of_snaps.append({'date':snapshotDate, 'snap_id': snapshotId})
     # get latest snapshot out of all snapshots with same tags
     # if list_of_snaps == []:
-    #     print("No snapshots available in ArcherBackupSnap tag in region :%s" %sregion)
+    #     print("No snapshots available in SnapBackupSnap tag in region :%s" %sregion)
     #     latestsnap = 'Nothing'
     #     return latestsnap
     # else:
@@ -66,7 +66,7 @@ def createVolume(msg):
     # print(volume)
     print(type(volume))
     vol=ec2.Volume(volume['VolumeId'])
-    vol.create_tags(Tags=[{'Key':'ArcherBackupVolume', 'Value':'Yes'}, {'Key': 'Name', 'Value':'Archer FS Volume'}])
+    vol.create_tags(Tags=[{'Key':'SnapBackupVolume', 'Value':'Yes'}, {'Key': 'Name', 'Value':'Snap FS Volume'}])
     print(vol)
     return vol
     # else:
@@ -79,7 +79,7 @@ def createSnap():
         Filters=[
             {
                 'Name': 'tag-key',
-                'Values': ['ArcherBackupVolume',]
+                'Values': ['SnapBackupVolume',]
             },
             {
                 'Name': 'tag-value',
@@ -89,11 +89,11 @@ def createSnap():
         MaxResults = 10000
     )
     if descVol['Volumes'] == []:
-        print("No Volumes available with ArcherBackupVolume tag")
+        print("No Volumes available with SnapBackupVolume tag")
     else:
         snap = client.create_snapshot(
             VolumeId=descVol['Volumes'][0]['VolumeId'],
-            Description='Snapshot Archer Terminate Event'
+            Description='Snapshot  Terminate Event'
             )
 
         if (snap):
@@ -105,16 +105,16 @@ def createSnap():
             DryRun=False,
             Tags=[
                 {
-                    'Key': 'ArcherBackupSnap',
+                    'Key': 'SnapBackupSnap',
                     'Value': 'Yes'
                 },
                 {
-                    'Key': 'ArcherDeleteOn',
+                    'Key': 'SnapDeleteOn',
                     'Value': delete_fmt
                 },
                 {
                     'Key': 'Name',
-                    'Value': 'Archer Backup Snapshots'
+                    'Value': 'App Backup Snapshots'
                 },
             ]
         )

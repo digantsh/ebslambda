@@ -5,8 +5,9 @@ import os
 
 activeRegion = os.environ['ActiveRegion']
 standbyRegion = os.environ['StandbyRegion']
+# environment variable for dev/qa/prod
 env = os.environ['Environment']
-tag = 'ArcherBackup' + env
+tag = 'SnapBackup' + env
 instTag = 'tag:' + tag + 'Instance'
 
 volTag = tag + 'Volume'
@@ -97,7 +98,7 @@ def lambda_handler(event, context):
                         'Value': 'Yes'
                     },
                     {
-                        'Key': 'ArcherDeleteOn',
+                        'Key': 'SnapDeleteOn',
                         'Value': delete_fmt
                     },
                     {
