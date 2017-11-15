@@ -6,4 +6,5 @@
 	sns-trigger.py
 #delete snapshot on regular intervals on depending the tag date
 	delete-ebs.py
+added log extract
 no more changes
