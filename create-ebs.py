@@ -6,7 +6,8 @@ import os
 activeRegion = os.environ['ActiveRegion']
 standbyRegion = os.environ['StandbyRegion']
 # environment variable for dev/qa/prod
-env = os.environ['Environment']
+#env = os.environ['Environment']
+env = 'dev'
 tag = 'SnapBackup' + env
 instTag = 'tag:' + tag + 'Instance'
 
